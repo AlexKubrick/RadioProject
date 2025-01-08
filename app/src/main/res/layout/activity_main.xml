@@ -1,43 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="20dp"
-    android:paddingTop="40dp"
+    android:paddingTop="150dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="40dp"
+    android:paddingBottom="150dp"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/ivStationImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/twCurrentStation"
+        app:layout_constraintEnd_toEndOf="@id/playerManagementContainer"
+        app:layout_constraintStart_toStartOf="@id/playerManagementContainer"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <TextView
-        android:id="@+id/stationName"
+        android:id="@+id/twCurrentStation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/playPauseButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Station: Unknown" />
-
-    <Button
-        android:id="@+id/playPauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/material_dynamic_neutral0"
-        android:fontFamily="monospace"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/playerManagementContainer"
+        app:layout_constraintEnd_toEndOf="@id/playerManagementContainer"
+        app:layout_constraintStart_toStartOf="@id/playerManagementContainer"
+        tools:text="Radio Kniga" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playerManagementContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stationName"
-        tools:text="Играть" />
+        app:layout_constraintStart_toStartOf="parent">
 
+        <ImageButton
+            android:id="@+id/bPlay"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/play_button_background"
+            android:src="@drawable/ic_play"
+            app:layout_constraintBottom_toTopOf="@id/playerSeekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <SeekBar
+            android:id="@+id/playerSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/twTime" />
+
+        <TextView
+            android:id="@+id/twTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/playerSeekBar"
+            app:layout_constraintEnd_toStartOf="@id/playerSeekBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playerSeekBar"
+            tools:text="1:24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
