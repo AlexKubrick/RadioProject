@@ -2,6 +2,7 @@ package ru.alexkubrick.android.radioproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import ru.alexkubrick.android.radioproject.databinding.ActivityMainBinding
 
@@ -34,5 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         startService(serviceIntent)
         isPlaying = !isPlaying
+    }
+
+    private fun controlRadio() {
+
+    }
+
+
+    companion object {
+        var RadioPlayerServiceInstance: RadioPlayerService? = null
     }
 }

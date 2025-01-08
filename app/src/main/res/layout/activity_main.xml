@@ -13,13 +13,13 @@
 
     <ImageView
         android:id="@+id/ivStationImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/twCurrentStation"
         app:layout_constraintEnd_toEndOf="@id/playerManagementContainer"
         app:layout_constraintStart_toStartOf="@id/playerManagementContainer"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@drawable/pic_logo_radio"/>
 
     <TextView
         android:id="@+id/twCurrentStation"
