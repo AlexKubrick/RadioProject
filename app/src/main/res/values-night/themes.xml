@@ -4,4 +4,24 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
-</resources>
+
+    <style name ="DarkTheme" parent="Theme.Material3.DayNight">
+        <!-- Основные цвета -->
+        <item name="colorPrimary">@color/dark_peach</item> <!-- Акцентный цвет -->
+        <item name="colorPrimaryVariant">@color/muted_green</item> <!-- Вариант акцента -->
+        <item name="colorSecondary">@color/coral_red</item> <!-- Вторичный акцент -->
+
+        <!-- Фон -->
+        <item name="android:colorBackground">@color/dark_brown</item> <!-- Основной фон -->
+        <item name="colorSurface">@color/soft_brown_gray</item> <!-- Поверхности -->
+
+        <!-- Текст -->
+        <item name="colorOnPrimary">@color/white</item> <!-- Текст на акцентных элементах -->
+        <item name="colorOnSecondary">@color/white</item> <!-- Текст на вторичных элементах -->
+        <item name="colorOnBackground">@color/dark_peach</item> <!-- Текст на фоне -->
+        <item name="colorOnSurface">@color/dark_peach</item> <!-- Текст на поверхностях -->
+
+        <!-- Цвет ошибок -->
+        <item name="colorError">@color/coral_red</item> <!-- Ошибки -->
+    </style>
+ </resources>

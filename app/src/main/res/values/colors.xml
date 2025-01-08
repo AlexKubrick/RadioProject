@@ -2,4 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Day light theme-->
+    <color name="beige_warm">#F7EBE1</color> <!-- Светло-бежевый (фон) -->
+    <color name="brown_gray">#5C4033</color> <!-- Коричнево-серый (текст и акцент) -->
+    <color name="peach_red">#FFCCBC</color> <!-- Кораллово-оранжевый (уведомления) -->
+    <color name="coral_orange_soft">#FF8A65</color> <!-- Кораллово-оранжевый (уведомления) -->
+    <color name="green_grass_light">#A5D6A7</color> <!-- Травяной зелёный (дополнительный акцент) -->
+
+    <!-- Night dark theme-->
+    <color name="dark_brown">#3E2723</color> <!-- Темно-коричневый (фон) -->
+    <color name="soft_brown_gray">#5C4033</color> <!-- Коричнево-серый (текст и акцент) -->
+    <color name="dark_peach">#D7B8AE</color> <!-- Персиково-кремовый (акцент) -->
+    <color name="coral_red">#FF8A65</color> <!-- Мягкий кораллово-оранжевый (уведомления) -->
+    <color name="muted_green">#8FBF8F</color> <!-- Приглушённый травяной зелёный (дополнительный акцент) -->
 </resources>

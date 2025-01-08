@@ -5,5 +5,23 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.RadioProject" parent="Base.Theme.RadioProject" />
+    <style name="LightTheme" parent="Theme.Material3.DayNight">
+        <!-- Основные цвета -->
+        <item name="colorPrimary">@color/peach_red</item> <!-- Основной акцент -->
+        <item name="colorPrimaryVariant">@color/coral_orange_soft</item> <!-- Вариант акцента -->
+        <item name="colorSecondary">@color/green_grass_light</item> <!-- Дополнительный акцент -->
+
+        <!-- Фон -->
+        <item name="android:colorBackground">@color/beige_warm</item> <!-- Фон приложения -->
+        <item name="colorSurface">@color/white</item> <!-- Поверхности (например, карточки) -->
+
+        <!-- Текст -->
+        <item name="colorOnPrimary">@color/white</item> <!-- Текст на акцентных элементах -->
+        <item name="colorOnSecondary">@color/brown_gray</item> <!-- Текст на дополнительных акцентах -->
+        <item name="colorOnBackground">@color/brown_gray</item> <!-- Основной текст -->
+        <item name="colorOnSurface">@color/brown_gray</item> <!-- Текст на поверхностях -->
+
+        <!-- Ошибки -->
+        <item name="colorError">@color/coral_orange_soft</item>
+</style>
 </resources>
