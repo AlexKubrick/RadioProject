@@ -2,20 +2,21 @@ package ru.alexkubrick.android.radioproject
 
 import android.app.*
 import android.content.Intent
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 
 class RadioPlayerService : Service() {
-
-    private var radioPlayer: MediaPlayer? = null
+    private lateinit var player: ExoPlayer
     private var isPlaying = false
 
     override fun onCreate() {
         super.onCreate()
-        val radioUri = Uri.parse(RadioConstants.RADIOURL)
-        radioPlayer = MediaPlayer.create(this, radioUri)
+        player = ExoPlayer.Builder(this).build()
+        val mediaItem = MediaItem.fromUri(RadioConstants.RADIOURL)
+        player.setMediaItem(mediaItem)
+        player.prepare()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -57,15 +58,14 @@ class RadioPlayerService : Service() {
     }
 
     private fun playMusic() {
-        if (radioPlayer?.isPlaying == false) {
-            radioPlayer?.start()
+        if (!player.isPlaying) {
+            player.play()
         }
     }
 
     private fun stopMusic() {
-        if (radioPlayer?.isPlaying == true) {
-            radioPlayer?.pause()
-            radioPlayer?.seekTo(0)
+        if (player.isPlaying) {
+            player.stop()
         }
     }
 }

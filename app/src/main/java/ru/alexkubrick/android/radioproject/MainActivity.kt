@@ -2,7 +2,6 @@ package ru.alexkubrick.android.radioproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import ru.alexkubrick.android.radioproject.databinding.ActivityMainBinding
 
