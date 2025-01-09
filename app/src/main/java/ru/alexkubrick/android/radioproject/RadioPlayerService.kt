@@ -3,13 +3,20 @@ package ru.alexkubrick.android.radioproject
 import android.app.*
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 
 class RadioPlayerService : Service() {
     private lateinit var player: ExoPlayer
     private var isPlaying = false
+
+    private val mediaMetadata = MediaMetadata.Builder()
+        .setDisplayTitle("Неизвестная станция")
+        .build()
 
     override fun onCreate() {
         super.onCreate()
@@ -35,7 +42,7 @@ class RadioPlayerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopMusic()
+        player.release()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -49,7 +56,7 @@ class RadioPlayerService : Service() {
         val pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
 
         return NotificationCompat.Builder(this, RadioConstants.NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("Радио Книга")
+            .setContentTitle(getString(R.string.radio_kniga))
             .setContentText("Играет")
             .setSmallIcon(R.drawable.ic_radio_player)
             .addAction(R.drawable.ic_radio_player, "Остановить", pendingStopIntent)

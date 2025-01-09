@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        
+        binding.twCurrentStation.text = getString(R.string.radio_kniga)
         binding.bPlay.setImageResource(R.drawable.ic_play)
         binding.bPlay.setOnClickListener {
             manageRadioService()
