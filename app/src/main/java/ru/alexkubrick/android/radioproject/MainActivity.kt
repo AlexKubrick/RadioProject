@@ -1,10 +1,10 @@
 package ru.alexkubrick.android.radioproject
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.MediaItem
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         player.setMediaItem(mediaItem)
         player.prepare()
 
+        binding.playerSeekBar.max = 3600
         binding.twCurrentStation.text = getString(R.string.radio_kniga)
         binding.twTime.text = "00:00"
         binding.bPlay.setImageResource(R.drawable.ic_play)
@@ -55,6 +56,9 @@ class MainActivity : AppCompatActivity() {
             manageRadioService()
         }
     }
+
+    val handler = Handler(Looper.getMainLooper())
+    private var fakeProgress = 0 // Имитация движения ползунка
 
     @OptIn(UnstableApi::class)
     private fun manageRadioService() {
@@ -94,44 +98,76 @@ class MainActivity : AppCompatActivity() {
         binding.playerSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    player.seekTo(progress.toLong() *1000)
-                    binding.twTime.text= getTimeString(progress)
+                    player.seekTo(progress.toLong() * 1000)
+                    fakeProgress = progress // Обновляем SeekBar, если пользователь переместил
+                    binding.twTime.text = getTimeString(progress)
                 }
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
 
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-
-            }
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
 
-//        player.addListener(
-//            object : Player.Listener {
-//                override fun onPlayerError(error: PlaybackException) {
-//                    val cause = error.cause
-//                    if (cause is HttpDataSource.HttpDataSourceException) {
-//                        val httpError = cause
-//                        if (httpError is HttpDataSource.InvalidResponseCodeException) {
-//                        } else {
-//                        }
-//                    }
-//                }
-//            }
-//        )
-
-        val handler = Handler(Looper.getMainLooper())
-        handler.post(object : Runnable{
-            override fun run() {
-                val currentposition = player.currentPosition.toInt() / 1000
-                binding.playerSeekBar.progress=currentposition
-                binding.twTime.text = getTimeString(currentposition)
-                handler.postDelayed(this,1000)
+        player.addListener(
+            object : Player.Listener {
+                override fun onPlayerError(error: PlaybackException) {
+                    val cause = error.cause
+                    if (cause is HttpDataSource.HttpDataSourceException) {
+                        val httpError = cause
+                        if (httpError is HttpDataSource.InvalidResponseCodeException) {
+                            // ошибка 400, 500
+                            val responseCode = httpError.responseCode
+                            Toast.makeText(
+                                applicationContext,
+                                "Ошибка сервера: $responseCode. Попробуйте снова.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // ошибка соединения
+                            Toast.makeText(
+                                applicationContext,
+                                "Сетевая ошибка. Проверьте соединение с интернетом.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else if (cause is PlaybackException) {
+                        // общая ошибка воспроизведения
+                        Toast.makeText(
+                            applicationContext,
+                            "Ошибка воспроизведения. Попробуйте снова.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        // неизвестная ошибка
+                        Toast.makeText(
+                            applicationContext,
+                            "Произошла ошибка: ${error.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
+        )
 
+        handler.post(object : Runnable {
+            override fun run() {
+                val realPosition = player.currentPosition.toInt() / 1000
+                binding.twTime.text = getTimeString(realPosition) // Реальное время для текста
+
+                if (player.isPlaying) {
+                    // Имитация движения ползунка
+                    fakeProgress++
+                    if (fakeProgress <= binding.playerSeekBar.max) {
+                        binding.playerSeekBar.progress = fakeProgress
+                    }
+                } else {
+                    fakeProgress = realPosition // Синхронизировать при паузе
+                }
+
+                handler.postDelayed(this, 3000)
+            }
         })
     }
 //        player.addListener(
