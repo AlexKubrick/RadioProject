@@ -1,5 +1,6 @@
 package ru.alexkubrick.android.radioproject
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,7 +14,8 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import ru.alexkubrick.android.radioproject.dataSource.CustomDataSourceFactory
 import ru.alexkubrick.android.radioproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -33,20 +35,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        player =
-            ExoPlayer.Builder(this)
-                .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
-                .build()
+//        player =
+//            ExoPlayer.Builder(this)
+//                .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
+//                .build()
+//
+//        val mediaItem =
+//            MediaItem.Builder()
+//                .setUri(RadioConstants.RADIOURL)
+//                .setLiveConfiguration(
+//                    MediaItem.LiveConfiguration.Builder().setMaxPlaybackSpeed(1.02f).build()
+//                )
+//                .build()
+//        player.setMediaItem(mediaItem)
+//        player.prepare()
 
-        val mediaItem =
-            MediaItem.Builder()
-                .setUri(RadioConstants.RADIOURL)
-                .setLiveConfiguration(
-                    MediaItem.LiveConfiguration.Builder().setMaxPlaybackSpeed(1.02f).build()
-                )
-                .build()
-        player.setMediaItem(mediaItem)
+        player = ExoPlayer.Builder(this).build()
+
+        // Используем нашу кастомную фабрику данных
+        val dataSourceFactory = CustomDataSourceFactory()
+        val mediaItem = MediaItem.fromUri(Uri.parse(RadioConstants.RADIOURL))
+        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(mediaItem)
+        player.setMediaSource(mediaSource)
         player.prepare()
+        //player.playWhenReady = true
 
         binding.playerSeekBar.max = 3600
         binding.twCurrentStation.text = getString(R.string.radio_kniga)

@@ -5,27 +5,44 @@ import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.TransferListener
-import java.io.IOException
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.InputStream
+import androidx.media3.datasource.DataSource
 
+@UnstableApi
 class CustomDataSource : DataSource {
 
     private var uri: Uri? = null
+    private var inputStream: InputStream? = null
+    private val client = OkHttpClient()
 
     @OptIn(UnstableApi::class)
     override fun open(dataSpec: DataSpec): Long {
         uri = dataSpec.uri
-        // Тут логика работы с источником (файл, сеть, API и т.д.)
-        return 0 // Вернуть количество доступных байт
+        val request = Request.Builder()
+            .url(uri.toString())
+            .build()
+
+        val response: Response = client.newCall(request).execute()
+        if (!response.isSuccessful) {
+            throw Exception("HTTP request failed with code: ${response.code}")
+        }
+
+        inputStream = response.body?.byteStream()
+        return response.body?.contentLength() ?: 0L
     }
 
     override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
-        // Заполнить буфер данными и вернуть количество прочитанных байт
-        return -1 // Вернуть -1 при конце потока
+        return inputStream?.read(buffer, offset, length) ?: -1
     }
 
     override fun close() {
-        // Очистить ресурсы
+        inputStream?.close()
+        inputStream = null
     }
+
 
     @OptIn(UnstableApi::class)
     override fun addTransferListener(transferListener: TransferListener) {
@@ -36,3 +53,11 @@ class CustomDataSource : DataSource {
         return uri
     }
 }
+
+@UnstableApi
+class CustomDataSourceFactory : DataSource.Factory {
+    override fun createDataSource(): DataSource {
+        return CustomDataSource()
+    }
+}
+
