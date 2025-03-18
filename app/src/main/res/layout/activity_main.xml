@@ -11,6 +11,16 @@
     android:paddingBottom="150dp"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/twCurrentStation"
+        app:layout_constraintEnd_toEndOf="@id/playerManagementContainer"
+        app:layout_constraintStart_toStartOf="@id/playerManagementContainer"/>
+
     <ImageView
         android:id="@+id/ivStationImage"
         android:layout_width="300dp"
